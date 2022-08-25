@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tip Calculator</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap");
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Poppins", sans-serif;
+      }
+
+      .main-div {
+        width: 100%;
+        min-height: 100vh;
+        background: #273c75;
+      }
+
+      .inner-div {
+        width: 100%;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .inner-div span {
+        text-transform: uppercase;
+        color: #fff;
+        border: 1px solid #fff;
+        border-radius: 20px 20px 0 0;
+        padding: 1% 5%;
+        width: 25%;
+        text-align: center;
+      }
+
+      .calculator-body {
+        padding: 2% 1.5%;
+        width: 25%;
+        display: flex;
+        flex-direction: column;
+        gap: 0.7rem;
+        color: #fff;
+        border: 1px solid #fff;
+      }
+
+      #amount,
+      #people,
+      #service {
+        padding: 2% 2.5%;
+        width: 80%;
+        border: none;
+        outline: none;
+        border-bottom: 2px solid #fff;
+        background: #273c75;
+        color: #fff;
+      }
+
+      #service {
+        cursor: pointer;
+      }
+
+      .output {
+        margin-top: 2rem;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="main-div">
+      <div class="inner-div">
+        <span>tip Calculator</span>
+        <div class="calculator-body">
+          <label for="bill-amount">Bill Amount??</label>
+          <div>
+            <input
+              type="text"
+              placeholder="Amount to be paid"
+              id="amount"
+              onchange="calculate()"
+            />
+            ₹
+          </div>
+          <label for="service">How was the service??</label>
+          <select name="service" id="service" onchange="calculate()">
+            <option value="select">Select</option>
+            <option value="good">5% for Good</option>
+            <option value="very good">10% for Very Good</option>
+            <option value="best">15% for Best</option>
+          </select>
+          <label for="people">Number of people??</label>
+          <input
+            type="text"
+            name="people"
+            placeholder="Number of people sharing the bill"
+            id="people"
+            onchange="calculate()"
+          />
+          <div class="output">₹ 0</div>
+        </div>
+      </div>
+      <script>
+        function getServiceTax(service) {
+          if (service == "good") {
+            return 5;
+          } else if (service == "very good") {
+            return 10;
+          } else if (service == "best") {
+            return 15;
+          } else {
+            return;
+          }
+        }
+        function calculate() {
+          const output = document.querySelector(".output");
+          const amount = document.getElementById("amount");
+          const service = document.getElementById("service");
+          const people = document.getElementById("people");
+          const serviceTax = getServiceTax(service.value);
+          if (!service.value && !people.value) {
+            output.innerHTML = "₹ " + amount.value;
+          } else if (!people.value) {
+            output.innerHTML = "₹ " + (amount.value * serviceTax) / 100;
+          } else {
+            const result = (amount.value * serviceTax) / 100;
+            output.innerHTML = "₹ " + result / people.value + " for each";
+          }
+        }
+      </script>
+    </div>
+  </body>
+</html>
